@@ -1,4 +1,5 @@
 import socket
+import time
 
 PORT = 5050
 SERVER = "localhost" # Or socket.gethostbyname(socket.gethostname()) 
@@ -18,9 +19,22 @@ def send(client, msg):
     client.send(message)
 
 
-client = connect()
-send(client, "Testing")
-input()
-send(client, DISCONNECT_MESSAGE)
+def start():
+    answer = input('Would you like to connect (yes/no)? ')
+    if answer.lower() != 'yes':
+        return
 
+    connection = connect()
+    while True:
+        msg = input("Message (q for quit): ")
 
+        if msg == 'q':
+            break
+        
+        send(connection, msg)
+
+    send(connection, DISCONNECT_MESSAGE)
+    time.sleep(1)
+    print('Disconnected')
+
+start()
